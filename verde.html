@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FaceBox — Tecnologia Inteligente para Condomínios</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: #0c1f17;
+  --accent: #059669;
+  --accent-light: #34d399;
+  --accent-lighter: #6ee7b7;
+  --accent-glow: rgba(5,150,105,0.1);
+  --surface: #f8faf9;
+  --text: #0f172a;
+  --text-secondary: #64748b;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --green: #059669;
+  --red: #ef4444;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; color: var(--text); }
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(12,31,23,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+.nav-logo span { color: var(--accent-light); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--accent) !important;
+  color: var(--white) !important;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600 !important;
+  transition: all 0.3s;
+}
+.nav-cta:hover { background: #047857 !important; }
+
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--primary) 0%, #14412d 40%, #166b4a 70%, var(--accent) 100%);
+  display: flex;
+  align-items: center;
+  padding: 120px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(5,150,105,0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-text h1 {
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+}
+.hero-text h1 span {
+  background: linear-gradient(135deg, var(--accent-light), var(--accent-lighter));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-text p {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: var(--white);
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { background: #047857; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(5,150,105,0.4); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+.hero-visual { display: flex; justify-content: center; align-items: center; }
+.hero-mockup {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 4/3;
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
+}
+.mockup-icon { font-size: 4rem; opacity: 0.9; }
+.mockup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; }
+.mockup-cell {
+  aspect-ratio: 1;
+  background: rgba(5,150,105,0.15);
+  border-radius: 12px;
+  border: 1px solid rgba(5,150,105,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+.mockup-cell:nth-child(2) { background: rgba(52,211,153,0.2); border-color: rgba(52,211,153,0.25); }
+.mockup-cell:nth-child(5) { background: rgba(5,150,105,0.25); border-color: rgba(5,150,105,0.3); }
+
+.trust-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 24px;
+}
+.trust-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.trust-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--accent-glow);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.section { padding: 100px 24px; }
+.section-white { background: var(--white); }
+.section-gray { background: var(--surface); }
+.section-dark { background: var(--primary); color: var(--white); }
+.container { max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-label {
+  display: inline-block;
+  background: var(--accent-glow);
+  color: var(--accent);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.section-dark .section-label {
+  background: rgba(52,211,153,0.12);
+  color: var(--accent-light);
+}
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+.section-sub {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.section-dark .section-sub { color: rgba(255,255,255,0.6); }
+
+.problems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.problem-card {
+  padding: 32px;
+  background: rgba(239,68,68,0.04);
+  border: 1px solid rgba(239,68,68,0.1);
+  border-radius: 16px;
+  transition: all 0.3s;
+}
+.problem-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.problem-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(239,68,68,0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+.problem-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.problem-card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+
+.products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.product-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  border-color: var(--accent);
+}
+.product-card:hover::before { opacity: 1; }
+.product-icon {
+  width: 72px;
+  height: 72px;
+  background: var(--accent-glow);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 20px;
+}
+.product-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+.product-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+.product-tag {
+  display: inline-block;
+  margin-top: 16px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 10%; right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  opacity: 0.2;
+}
+.step { text-align: center; position: relative; }
+.step-num {
+  width: 80px;
+  height: 80px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 2;
+}
+.step h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.step p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+
+.benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.benefit-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s;
+}
+.benefit-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(52,211,153,0.12);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+}
+.benefit-card h3 { color: var(--white); font-size: 1.1rem; margin-bottom: 8px; }
+.benefit-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; }
+
+.faq-list { max-width: 800px; margin: 0 auto; }
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.faq-item:hover { border-color: var(--accent); }
+.faq-question {
+  padding: 20px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--white);
+}
+.faq-question::after { content: '+'; font-size: 1.5rem; color: var(--accent); font-weight: 300; }
+.faq-answer {
+  padding: 0 24px 20px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  display: none;
+}
+.faq-item.active .faq-answer { display: block; }
+.faq-item.active .faq-question::after { content: '-'; }
+
+.cta-section {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  padding: 100px 24px;
+  text-align: center;
+}
+.cta-section h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--white);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.cta-section p {
+  color: rgba(255,255,255,0.7);
+  font-size: 1.15rem;
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+.cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: white;
+  padding: 18px 36px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.btn-whatsapp:hover { background: #1da851; transform: translateY(-2px); }
+.btn-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  color: var(--accent);
+  padding: 18px 36px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+
+.form-section { background: var(--white); padding: 80px 24px; }
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 48px 40px;
+  border: 1px solid var(--border);
+}
+.form-container h2 { font-size: 1.8rem; text-align: center; margin-bottom: 8px; }
+.form-container > p { text-align: center; color: var(--text-secondary); margin-bottom: 32px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  background: var(--white);
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-submit {
+  width: 100%;
+  padding: 16px;
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.form-submit:hover { background: #047857; }
+
+footer {
+  background: var(--primary);
+  color: rgba(255,255,255,0.6);
+  padding: 60px 24px 32px;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.footer-brand h3 { font-size: 1.5rem; color: var(--white); font-weight: 800; margin-bottom: 12px; }
+.footer-brand h3 span { color: var(--accent-light); }
+.footer-brand p { font-size: 0.9rem; line-height: 1.6; max-width: 280px; }
+.footer-col h4 {
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.footer-col a {
+  display: block;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--white); }
+.footer-bottom {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  z-index: 99;
+  transition: all 0.3s;
+  animation: whatsappPulse 2s infinite;
+}
+.whatsapp-float:hover { transform: scale(1.1); }
+@keyframes whatsappPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+  50% { box-shadow: 0 4px 30px rgba(37,211,102,0.6); }
+}
+
+@media (max-width: 968px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid::before { display: none; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Face<span>Box</span></a>
+    <div class="nav-links">
+      <a href="#solucoes">Soluções</a>
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#beneficios">Benefícios</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contato" class="nav-cta">Solicitar Demonstração</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>Seu condomínio mais <span>seguro e inteligente</span></h1>
+      <p>Armários automáticos para entregas, portaria eletrônica, câmeras e reconhecimento facial — tudo integrado em uma única solução.</p>
+      <div class="hero-buttons">
+        <a href="#contato" class="btn-primary">Solicitar Demonstração Gratuita</a>
+        <a href="#solucoes" class="btn-secondary">Conhecer Soluções</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-mockup">
+        <div class="mockup-icon">📦</div>
+        <div class="mockup-grid">
+          <div class="mockup-cell">🔐</div>
+          <div class="mockup-cell">📱</div>
+          <div class="mockup-cell">🔐</div>
+          <div class="mockup-cell">📱</div>
+          <div class="mockup-cell">📦</div>
+          <div class="mockup-cell">📱</div>
+        </div>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; text-align: center;">Armário Inteligente FaceBox</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><div class="trust-icon">🔒</div><span>Monitoramento 24/7</span></div>
+    <div class="trust-item"><div class="trust-icon">⚡</div><span>Instalação em até 7 dias</span></div>
+    <div class="trust-item"><div class="trust-icon">📱</div><span>App para moradores</span></div>
+    <div class="trust-item"><div class="trust-icon">🛡️</div><span>Suporte técnico dedicado</span></div>
+  </div>
+</div>
+
+<section class="section section-white">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Problemas</span>
+      <h2 class="section-title">Seu condomínio sofre com isso?</h2>
+      <p class="section-sub">Esses são os problemas mais comuns que síndicos enfrentam todos os dias.</p>
+    </div>
+    <div class="problems-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📦</div>
+        <h3>Pacotes perdidos na portaria</h3>
+        <p>Entregas de iFood, Mercado Livre e Shopee ficam empilhadas sem controle. Moradores reclamam, e o síndico leva a culpa.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💸</div>
+        <h3>Custo alto com porteiro 24h</h3>
+        <p>Folha de pagamento com porteiros pode ultrapassar R$ 15.000/mês. Um custo que pesa no bolso de todos os moradores.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🔓</div>
+        <h3>Segurança defasada</h3>
+        <p>Câmeras analógicas, acesso por chave ou cartão que passa de mão em mão. Sem registro confiável de quem entra e sai.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-gray" id="solucoes">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Soluções</span>
+      <h2 class="section-title">Tecnologia completa para seu condomínio</h2>
+      <p class="section-sub">Da entrega segura ao controle de acesso inteligente. Tudo integrado, tudo monitorado.</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-icon">📦</div>
+        <h3>Armário Inteligente</h3>
+        <p>O entregador deixa no armário, o morador recebe notificação e retira quando quiser. Câmera integrada registra tudo.</p>
+        <span class="product-tag">Mais Vendido</span>
+      </div>
+      <div class="product-card">
+        <div class="product-icon">🎥</div>
+        <h3>Câmeras Inteligentes</h3>
+        <p>CFTV com IA, gravação em nuvem, detecção de movimento e acesso remoto. Segurança real, não só uma câmera parada.</p>
+        <span class="product-tag">IA Integrada</span>
+      </div>
+      <div class="product-card">
+        <div class="product-icon">👤</div>
+        <h3>Reconhecimento Facial</h3>
+        <p>Sem cartão, sem chave, sem falha humana. Morador olha e entra. Visitante é registrado. Tudo no app.</p>
+        <span class="product-tag">Biometria</span>
+      </div>
+      <div class="product-card">
+        <div class="product-icon">🏢</div>
+        <h3>Portaria Eletrônica</h3>
+        <p>Portaria remota 24h com atendimento por vídeo. Reduza até 60% do custo de portaria. Segurança que não dorme.</p>
+        <span class="product-tag">Economia de 60%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white" id="como-funciona">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Como Funciona</span>
+      <h2 class="section-title">Do primeiro contato à instalação</h2>
+      <p class="section-sub">Processo simples e rápido. Seu condomínio inteligente em poucos dias.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Diagnóstico Gratuito</h3>
+        <p>Analisamos a estrutura do seu condomínio e identificamos as melhores soluções</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Proposta Personalizada</h3>
+        <p>Montamos um pacote sob medida com os produtos ideais para a sua necessidade</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Aprovação em Assembleia</h3>
+        <p>Fornecemos todo o material para facilitar a aprovação dos moradores</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Instalação em 7 Dias</h3>
+        <p>Equipe técnica especializada instala e configura tudo. Suporte contínuo incluso</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="beneficios">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Benefícios</span>
+      <h2 class="section-title" style="color:white">Por que escolher a FaceBox</h2>
+      <p class="section-sub">Vantagens que fazem diferença no dia a dia do condomínio.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">💰</div>
+        <h3>Economia Real</h3>
+        <p>Reduza até 60% do custo de portaria. O investimento se paga em poucos meses com a economia gerada.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔐</div>
+        <h3>Segurança Total</h3>
+        <p>Câmeras, facial e portaria eletrônica trabalhando juntos. Tudo gravado, tudo rastreável, tudo na nuvem.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📦</div>
+        <h3>Zero Pacote Perdido</h3>
+        <p>Armário inteligente com câmera. O entregador deixa, o morador recebe notificação. Acabou a reclamação.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📱</div>
+        <h3>Tudo no App</h3>
+        <p>Morador controla acesso, recebe notificações, vê câmeras e abre portas. Tudo na palma da mão.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🏆</div>
+        <h3>Valorização do Imóvel</h3>
+        <p>Condomínio inteligente atrai compradores e locatários dispostos a pagar mais. Tecnologia valoriza o patrimônio.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🛡️</div>
+        <h3>Suporte Dedicado</h3>
+        <p>Equipe técnica própria. Manutenção preventiva, atualizações de sistema e atendimento prioritário.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-gray" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Dúvidas Frequentes</span>
+      <h2 class="section-title">Perguntas e Respostas</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item active">
+        <div class="faq-question">Precisa de aprovação em assembleia?</div>
+        <div class="faq-answer">Na maioria dos casos, sim. Mas nós fornecemos todo o material pronto para o síndico apresentar na assembleia — incluindo comparativos de custo, benefícios e proposta visual. Facilitamos ao máximo a aprovação.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Qual o prazo de instalação?</div>
+        <div class="faq-answer">Após aprovação e fechamento do contrato, a instalação completa é realizada em até 7 dias úteis pela nossa equipe técnica especializada.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Funciona com qualquer tipo de entrega?</div>
+        <div class="faq-answer">Sim! O armário inteligente funciona com iFood, Mercado Livre, Shopee, correios, transportadoras e qualquer delivery. O entregador recebe um código temporário para depositar a encomenda.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">E se o equipamento der problema?</div>
+        <div class="faq-answer">A assinatura mensal inclui suporte técnico completo, manutenção preventiva e corretiva, além de atualizações de software. Nossa equipe está sempre disponível.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Posso contratar só um produto?</div>
+        <div class="faq-answer">Sim! Cada solução funciona de forma independente. Você pode começar com o armário inteligente, por exemplo, e depois adicionar câmeras, facial ou portaria eletrônica.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Vocês atendem fora de São Paulo?</div>
+        <div class="faq-answer">Sim! Além de São Paulo capital, atendemos regiões de Minas Gerais e Paraná com logística e equipe técnica própria.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="contato">
+  <div class="form-container">
+    <h2>Solicite uma Demonstração</h2>
+    <p>Preencha o formulário e um consultor entrará em contato em até 24h.</p>
+    <form>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" placeholder="(11) 99999-9999">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" placeholder="seu@email.com">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome do condomínio</label>
+          <input type="text" placeholder="Condomínio...">
+        </div>
+        <div class="form-group">
+          <label>Quantidade de unidades</label>
+          <select>
+            <option>Selecione</option>
+            <option>Até 50 unidades</option>
+            <option>50 a 100 unidades</option>
+            <option>100 a 200 unidades</option>
+            <option>200 a 500 unidades</option>
+            <option>Mais de 500 unidades</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Qual solução te interessa?</label>
+        <select>
+          <option>Selecione</option>
+          <option>Armário Inteligente</option>
+          <option>Câmeras de Segurança</option>
+          <option>Reconhecimento Facial</option>
+          <option>Portaria Eletrônica</option>
+          <option>Pacote Completo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensagem (opcional)</label>
+        <textarea rows="3" placeholder="Conte um pouco sobre a necessidade do seu condomínio..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Solicitar Demonstração Gratuita</button>
+    </form>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Pronto para transformar<br>seu condomínio?</h2>
+    <p>Fale com um consultor agora mesmo e descubra como a FaceBox pode ajudar.</p>
+    <div class="cta-buttons">
+      <a href="#" class="btn-whatsapp">💬 Falar no WhatsApp</a>
+      <a href="#contato" class="btn-white">Solicitar Demonstração</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>Face<span>Box</span></h3>
+      <p>Tecnologia inteligente para condomínios. Segurança, praticidade e economia em uma única solução.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Soluções</h4>
+      <a href="#">Armário Inteligente</a>
+      <a href="#">Câmeras</a>
+      <a href="#">Reconhecimento Facial</a>
+      <a href="#">Portaria Eletrônica</a>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <a href="#">Sobre nós</a>
+      <a href="#">Blog</a>
+      <a href="#">Contato</a>
+      <a href="#">Trabalhe conosco</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <a href="#">São Paulo, SP</a>
+      <a href="#">contato@facebox.com.br</a>
+      <a href="#">(11) 99999-9999</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 FaceBox. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float" title="Fale conosco no WhatsApp">💬</a>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    document.querySelectorAll('.faq-item').forEach(i => {
+      if (i !== item) i.classList.remove('active');
+    });
+    item.classList.toggle('active');
+  });
+});
+</script>
+
+</body>
+</html>
